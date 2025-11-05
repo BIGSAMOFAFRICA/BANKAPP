@@ -141,7 +141,7 @@ export default function Signup() {
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all ${
                   errors.email ? 'border-red-500' : 'border-slate-300'
                 }`}
-                placeholder="your.email@example.com"
+                placeholder="BIGSAM.email@example.com"
               />
               {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>

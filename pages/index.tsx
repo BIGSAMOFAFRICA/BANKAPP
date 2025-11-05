@@ -44,7 +44,7 @@ export default function Home() {
                     <p className="mt-2 text-3xl font-bold text-slate-900">₦245,500.00</p>
                   </div>
                   <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-200">
-                    Secure by design
+                    Secure by BIGSAM
                   </span>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-4">
