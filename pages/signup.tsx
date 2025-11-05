@@ -4,6 +4,7 @@ import { SIGNUP_USER } from '@/lib/graphql/types';
 import { useRouter } from 'next/router';
 import { setToken, removeToken } from '@/lib/auth';
 import client from '@/lib/apolloClient';
+import Link from 'next/link';
 
 export default function Signup() {
   const router = useRouter();
@@ -20,7 +21,6 @@ export default function Signup() {
 
   const [signup, { loading: signupLoading }] = useMutation(SIGNUP_USER, {
     onCompleted: (data) => {
-      // Replace any previous session and reset Apollo cache
       removeToken();
       setToken(data.signupUser.token);
       try {
@@ -39,30 +39,20 @@ export default function Signup() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    // Clear error when user starts typing
+    setFormData({ ...formData, [name]: value });
+
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: '',
-      });
+      setErrors({ ...errors, [name]: '' });
     }
   };
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Full name is required';
-    }
+    if (!formData.name.trim()) newErrors.name = 'Full name is required';
 
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -76,18 +66,9 @@ export default function Signup() {
       newErrors.age = 'Age must be between 18 and 120';
     }
 
-    if (!formData.gender) {
-      newErrors.gender = 'Please select your gender';
-    }
-
-    if (!formData.occupation) {
-      newErrors.occupation = 'Please select your occupation';
-    }
-
-    if (!formData.incomeRange) {
-      newErrors.incomeRange = 'Please select your income range';
-    }
-
+    if (!formData.gender) newErrors.gender = 'Please select your gender';
+    if (!formData.occupation) newErrors.occupation = 'Please select your occupation';
+    if (!formData.incomeRange) newErrors.incomeRange = 'Please select your income range';
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
@@ -100,10 +81,7 @@ export default function Signup() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     signup({
       variables: {
@@ -123,17 +101,16 @@ export default function Signup() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-slate-900 mb-2">Create your account</h1>
-          <p className="text-slate-600">Join BIGSAMOFAFRICA BANK for simple, secure banking</p>
+          <p className="text-slate-600">
+            Join BIGSAMOFAFRICA BANK for simple, secure banking
+          </p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 md:p-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name */}
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
                 Full Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -147,17 +124,12 @@ export default function Signup() {
                 }`}
                 placeholder="Enter your full name"
               />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-              )}
+              {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
             </div>
 
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
                 Email Address <span className="text-red-500">*</span>
               </label>
               <input
@@ -171,17 +143,12 @@ export default function Signup() {
                 }`}
                 placeholder="your.email@example.com"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 
             {/* Age */}
             <div>
-              <label
-                htmlFor="age"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="age" className="block text-sm font-medium text-slate-700 mb-2">
                 Age <span className="text-red-500">*</span>
               </label>
               <input
@@ -197,17 +164,12 @@ export default function Signup() {
                 }`}
                 placeholder="Enter your age"
               />
-              {errors.age && (
-                <p className="mt-1 text-sm text-red-600">{errors.age}</p>
-              )}
+              {errors.age && <p className="mt-1 text-sm text-red-600">{errors.age}</p>}
             </div>
 
             {/* Gender */}
             <div>
-              <label
-                htmlFor="gender"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="gender" className="block text-sm font-medium text-slate-700 mb-2">
                 Gender <span className="text-red-500">*</span>
               </label>
               <select
@@ -224,17 +186,12 @@ export default function Signup() {
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
-              {errors.gender && (
-                <p className="mt-1 text-sm text-red-600">{errors.gender}</p>
-              )}
+              {errors.gender && <p className="mt-1 text-sm text-red-600">{errors.gender}</p>}
             </div>
 
             {/* Occupation */}
             <div>
-              <label
-                htmlFor="occupation"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="occupation" className="block text-sm font-medium text-slate-700 mb-2">
                 Occupation <span className="text-red-500">*</span>
               </label>
               <select
@@ -253,17 +210,12 @@ export default function Signup() {
                 <option value="Engineer">Engineer</option>
                 <option value="Other">Other</option>
               </select>
-              {errors.occupation && (
-                <p className="mt-1 text-sm text-red-600">{errors.occupation}</p>
-              )}
+              {errors.occupation && <p className="mt-1 text-sm text-red-600">{errors.occupation}</p>}
             </div>
 
             {/* Income Range */}
             <div>
-              <label
-                htmlFor="incomeRange"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="incomeRange" className="block text-sm font-medium text-slate-700 mb-2">
                 Income Range <span className="text-red-500">*</span>
               </label>
               <select
@@ -281,17 +233,12 @@ export default function Signup() {
                 <option value="₦100,000–₦500,000">₦100,000–₦500,000</option>
                 <option value="Above ₦500,000">Above ₦500,000</option>
               </select>
-              {errors.incomeRange && (
-                <p className="mt-1 text-sm text-red-600">{errors.incomeRange}</p>
-              )}
+              {errors.incomeRange && <p className="mt-1 text-sm text-red-600">{errors.incomeRange}</p>}
             </div>
 
             {/* Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-2">
                 Password <span className="text-red-500">*</span>
               </label>
               <input
@@ -305,9 +252,7 @@ export default function Signup() {
                 }`}
                 placeholder="Enter your password (min. 6 characters)"
               />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-              )}
+              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
             </div>
 
             <button
@@ -320,9 +265,9 @@ export default function Signup() {
 
             <p className="text-sm text-slate-600 text-center">
               Already have an account?{' '}
-              <a href="/login" className="text-slate-900 hover:underline">
+              <Link href="/login" className="text-slate-900 hover:underline">
                 Login here
-              </a>
+              </Link>
             </p>
           </form>
         </div>

@@ -35,14 +35,14 @@ export default function Contact() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Contact</h1>
-          <p className="text-lg text-slate-600">Have a question or need assistance? We're here to help.</p>
+          <p className="text-lg text-slate-600">Have a question or need assistance? We Are here to help.</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 md:p-10">
           {submitted && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-green-800 font-medium">
-                Message sent successfully! We'll get back to you soon.
+                Message sent successfully! We Will get back to you soon.
               </p>
             </div>
           )}
